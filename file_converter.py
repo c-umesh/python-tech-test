@@ -119,3 +119,16 @@ def convert_csv_to_json(ip_filename: str, delimiter: str,
         logging.error('csv file missing.please place it and rerun')
     except Exception:
         logging.error('Something has caused error', exc_info=True)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('ip_filename', help="csv filename")
+    parser.add_argument('delimiter', help="file delimiter in csv file for instance ,")
+    parser.add_argument('skip_header', help="number of rows to be skipped .For instance to skip header row pass 1",
+                        type=int)
+    parser.add_argument('skip_columns',
+                        help="number of columns to be skipped not part of hierarchy. for instance pass 1 ", type=int)
+    parser.add_argument('op_filename', help="output file name for instance filename.json")
+    args = parser.parse_args()
+    convert_csv_to_json(args.ip_filename, args.delimiter, args.skip_header, args.skip_columns, args.op_filename)
