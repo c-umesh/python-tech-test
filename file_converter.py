@@ -130,7 +130,7 @@ def convert_csv_to_json(ip_filename: str, delimiter: str,
             delimiter : single character delimiter
             skip_header : number to exclude header rows
             skip_columns: number to exclude columns which are not part of json
-        Retunrs:
+        Returns:
             None
      """
 
