@@ -18,9 +18,15 @@ level_dict = {}
 
 def read_and_clean_file(filename: str, delimiter: str,
                         skip_header: int, skip_columns: int) -> list:
-    """
-        load file into list of list , excluding no. of rows and columns are
+    """load file into list of list , excluding no. of rows and columns are
         passed as skip_header and skip_columns. It also exclude empty rows.
+        Args:
+            filename : csv filename
+            delimiter : file delimiter in csv file
+            skip_header :  skips rows which are not participating in json tree structure
+            skip_columns : skips columns which are not participating in json tree structure
+        Returns:
+            list in row and columns
     """
     tab_row_cols = []
     with open(filename) as csv_fp:
@@ -37,14 +43,23 @@ def read_and_clean_file(filename: str, delimiter: str,
 
 
 def element_name(column_no: int) -> str:
-    """ lookup for core attributes"""
+    """lookup for core attributes
+       Args:
+           column_no : column number in column list
+       Returns:
+           lookup value from core attribute
+    """
     key = column_no % length
     return core_attribute.get(key)
 
 
 def get_node_with_level(row: list) -> dict:
-    """derives value label ,id and link for given row along with
-       its level in the hierarchy"""
+    """derives value label ,id and link for given row along with its level in the hierarchy
+       Args:
+           row : row with relevant column values
+       Returns:
+           dict : sub data along with level or hierarchy
+    """
     log.info('get_node_with_level')
     sub_data = {'label': '', 'Id': '', 'link': ''}
     col_no = 0
@@ -63,7 +78,13 @@ def get_node_with_level(row: list) -> dict:
 
 
 def add_node(row: list, main_data_list: list) -> None:
-    """node is added as per the level in the dict tree hierarchy """
+    """ node is added as per the level in the dict tree hierarchy
+        Args:
+            row: with relevant column data
+            main_data_list: list of main dictonary object
+        Returns:
+              None
+    """
     log.info('add node')
     sub_data = get_node_with_level(row)
     level = sub_data['level']
@@ -84,7 +105,12 @@ def add_node(row: list, main_data_list: list) -> None:
 
 
 def build_tree(row_tables: list, main_data_list: list) -> None:
-    """nodes are nested in dictornary object """
+    """ nodes are nested in dictornary object
+        Args:
+            row_tables : list of rows
+            main_data_list: list of main dictonary object
+        Returns: None
+    """
     log.info('build_tree')
     no_of_cols = len(row_tables[1])
     log.info('intializing dictionary for each level with list')
@@ -99,11 +125,13 @@ def build_tree(row_tables: list, main_data_list: list) -> None:
 def convert_csv_to_json(ip_filename: str, delimiter: str,
                         skip_header: int, skip_columns: int, op_filename):
     """convert given csv file into json file
-        :parameter
+        Args:
             ip_filename : csv filename
             delimiter : single character delimiter
             skip_header : number to exclude header rows
             skip_columns: number to exclude columns which are not part of json
+        Retunrs:
+            None
      """
 
     try:
